@@ -1,4 +1,4 @@
--II Appello Introduzione alle Applicazioni Web 2023/2024, Politecnico di Torino, realizzato da Lorenzo Parata (matricola:295846)
+-II Appello Introduzione alle Applicazioni Web 2023/2024, Politecnico di Torino
 -Credenziali utenti:
 1.  email:  test@test.it    password:   test
 2.  email:  marcorossi@test.it    password:   marcorossi
