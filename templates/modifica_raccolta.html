@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+{% block title %}Modifica raccolta fondi{% endblock %}
+{% block style %}<link rel="stylesheet" href="{{ url_for('static', filename='style_modifica_raccolta.css') }}">{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-3">
+    <div class="row m-5 justify-content-center align-items-center">
+        <div class="d-flex col-3 justify-content-end">
+            <img class="img-fluid" src="{{ url_for('static', filename='logo.png') }}" alt="logo di GetFund" width="25%"/>
+        </div>
+        <div class="col-4" >
+            <h2 style="color:#638889; font-family:'Times New Roman', Times, serif;">GetFund</h2>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="d-flex row justify-content-center">
+        <section class="col-8 border border-dark-subtle rounded" id="section">
+            <h4 style="color:brown">Stai modificando la raccolta fondi: {{ raccolta.titolo |e }}</h4>
+            <p>Scegli se cambiare o confermare il tipo di raccolta fondi. Ti ricordiamo che:</p>
+            <ul>
+                <li>
+                    <h6 style="color:brown">Raccolta Fondi Lampo:</h6>
+                    <p>Questa opzione è perfetta se desideri una raccolta fondi rapida e intensa.
+                        Dura solo 5 minuti dalla creazione, consentendoti di raccogliere fondi in modo fulmineo.</p>
+                </li>
+                <li>
+                    <h6 style="color:brown">Raccolta Fondi Normale:</h6>
+                    <p>Se preferisci avere più tempo per raggiungere il tuo obiettivo, la raccolta fondi normale è l'opzione ideale. 
+                        Puoi impostare una durata massima fino a 14 giorni dalla creazione, con la flessibilità di terminarla in qualsiasi momento.</p>
+                </li>
+            </ul>
+            {% if not bottone_lampo_abilitato %}
+            <p>Il bottone LAMPO è disibilitato, perchè non puoi più effettuare la modifica</p>
+            {% endif %}
+            <hr>
+            <div id="bottoni">
+                {% if bottone_lampo_abilitato %}
+                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modale_lampo">
+                    LAMPO
+                </button>
+                {% else %}
+                <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modale_lampo" disabled>
+                    LAMPO
+                </button>
+                {% endif %}
+
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modale_normale">
+                    NORMALE
+                </button>
+            </div>
+        </section>
+        <div class="modal fade" id="modale_normale" tabindex="-1" aria-labelledby="modale_accediLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modale_accediLabel">Raccolta fondi di tipo normale</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="/modifica_raccolta_fondi_form" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="titolo" class="form-label">Il titolo della tua raccolta fondi</label>
+                                <input type="text" class="form-control" id="titolo" name="titolo" value="{{ raccolta.titolo |e }}" required>
+                            </div>
+        
+                            <div class="mb-3">
+                                <label for="descrizione" class="form-label">Racconta la tua storia</label>
+                                <textarea class="form-control" id="descrizione" name="descrizione" rows="3" required>{{ raccolta.descrizione |e }}</textarea>
+                            </div>
+        
+                            <div class="mb-3">
+                                <label for="immagine" class="form-label">Se desideri cambiare immagine, inserisci la nuova</label>
+                                <input class="form-control" type="file" id="immagine" name="immagine">
+                            </div>
+                            
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="immagine_vuota">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Desidero lasciare la raccolta fondi senza immagine</label>
+                            </div>
+                            <br>
+                            <label for="obiettivo" class="form-label">Imposta il tuo obiettivo monetario</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" aria-label="obiettivo in dollari" id="obiettivo" value="{{ raccolta.obiettivo |e }}" name="obiettivo" required step="0.01">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <label for="donazione_min" class="form-label">Imposta la donazione minima</label>
+                                        <input type="number" class="form-control" aria-label="donazione minima in dollari" id="donazione_min" value="{{ raccolta.donazione_min |e }}" name="donazione_min" required step="0.01">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <label for="donazione_max" class="form-label">Imposta la donazione massima</label>
+                                        <input type="number" class="form-control" aria-label="donazione massima in dollari" id="donazione_max" value="{{ raccolta.donazione_max |e }}" name="donazione_max" required step="0.01">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="mb-3">
+                                <label for="timestamp_chiusura" class="form-label">Seleziona la data di chiusura (entro 14 giorni)</label>
+                                <input class="form-control" type="date" name="timestamp_chiusura" id="timestamp_chiusura" required min="{{ data_min |e }}" max="{{ data_max |e }}" value="{{ data_chiusura |e }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="ora_chiusura" class="form-label">Seleziona l'ora di chiusura</label>
+                                <input class="form-control" type="time" name="ora_chiusura" id="ora_chiusura" required value="{{ ora_chiusura |e }}">
+                            </div>
+                            
+                            <input type="hidden" name="tipo" value="normale">
+                            <input type="hidden" name="id" value="{{ raccolta.id |e }}">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            <button type="submit" class="btn btn-success">Pubblica</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% if bottone_lampo_abilitato %}
+        <div class="modal fade" id="modale_lampo" tabindex="-1" aria-labelledby="modale_accediLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modale_accediLabel">Raccolta fondi di tipo lampo</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="/modifica_raccolta_fondi_form" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="titolo" class="form-label">Il titolo della tua raccolta fondi</label>
+                                <input type="text" class="form-control" id="titolo" name="titolo" required value="{{ raccolta.titolo |e }}">
+                            </div>
+        
+                            <div class="mb-3">
+                                <label for="descrizione" class="form-label">Racconta la tua storia</label>
+                                <textarea class="form-control" id="descrizione" name="descrizione" rows="3" required>{{ raccolta.descrizione |e }}</textarea>
+                            </div>
+        
+                            <div class="mb-3">
+                                <label for="immagine" class="form-label">Se desideri cambiare immagine, inserisci la nuova</label>
+                                <input class="form-control" type="file" id="immagine" name="immagine">
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="immagine_vuota">
+                                <label class="form-check-label" for="flexSwitchCheckDefault">Desidero lasciare la raccolta fondi senza immagine</label>
+                            </div>
+                            <label for="obiettivo" class="form-label">Imposta il tuo obiettivo monetario</label>                            
+                            <div class="input-group">
+                                <input type="number" class="form-control" aria-label="obiettivo in dollari" id="obiettivo" value="{{ raccolta.obiettivo |e }}" name="obiettivo" required step="0.01">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <label for="donazione_min" class="form-label">Imposta la donazione minima</label>
+                                        <input type="number" class="form-control" aria-label="donazione minima in dollari" id="donazione_min" value="{{ raccolta.donazione_min |e }}" name="donazione_min" required step="0.01">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <label for="donazione_max" class="form-label">Imposta la donazione massima</label>
+                                        <input type="number" class="form-control" aria-label="donazione massima in dollari" id="donazione_max" value="{{ raccolta.donazione_max |e }}" name="donazione_max" required step="0.01">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <input type="hidden" name="tipo" value="lampo">
+                            <input type="hidden" name="id" value="{{ raccolta.id |e }}">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            <button type="submit" class="btn btn-success">Pubblica</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>    
+</div>
+
+<footer id="myfooter1">
+    <hr id="linea_orizzontale1">
+    <small class="footer_testo">II Appello Introduzione alle applicazioni web 2023/2024, Politecnico di Torino</small>
+    <br>
+    <br>
+    <br>
+</footer>
+
+{% endblock %}

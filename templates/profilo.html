@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}Profilo {{ utente.nome |e }} {{ utente.cognome |e }}{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='style_profilo.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-3">
+    <div class="row m-5 justify-content-center align-items-center">
+        <div class="d-flex col-3 justify-content-end">
+            <img class="img-fluid" src="{{ url_for('static', filename='logo.png') }}" alt="logo di GetFund" width="25%"/>
+        </div>
+        <div class="col-4" >
+            <h2 style="color:#638889; font-family:'Times New Roman', Times, serif;">GetFund</h2>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-5"  id="myaside">
+            <aside class="border rounded border-dark-subtle" id="intestazione_profilo">
+                <h4 style="color:#638889;" class="fs-4">Salve {{ utente.nome |e }} {{ utente.cognome |e }}</h4>
+                {% if raccolte | length > 0 %}
+                <p  class="fs-6">Qui troverai tutte le raccolte fondi che hai organizzato.
+                    Le raccolte ancora aperte possono essere gestite (modificate o cancellate), 
+                    mentre puoi anche dare un'occhiata alle tue raccolte fondi passate.</p>
+                {% else %}
+                <p>Non hai ancora iniziato una raccolta fondi, se desideri farlo clicca qui</p>
+                <div>
+                    <a href="{{ url_for('creazione_raccolta_fondi') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Crea una raccolta fondi!</a>
+                </div>
+                {% endif %}
+            </aside>
+            <aside class="border rounded border-dark-subtle mt-4" id="portafoglio_virtuale">
+                <h5 style="color:#638889;" class="fs-5"><i class="fas fa-wallet"></i> Il tuo portafoglio virtuale</h5>
+                <p>Dall'apertura del tuo profilo hai accumulato una somma di: {{ portafoglio_virtuale |e }}$</p>
+            </aside>
+        </div>
+        <div class="col-7 d-flex justify-content-center">
+            <div class="row d-flex justify-content-center">
+                <div class="col-11 d-flex justify-content-center">
+                    <main id="raccolte_utente" class="border-dark-subtle border rounded">
+                        <h4 style="color:#638889;" class="fs-4"> Ecco qui le tue raccolte fondi!</h4>
+                        {% if raccolte | length > 0 %}
+                        <section class="mt-4">
+                            {% for raccolta in raccolte %}
+                            <div class="card mt-4">
+                                {% if raccolta.immagine %}
+                                <a href="{{ url_for('singola_raccolta_fondi', id=raccolta['id']) }}" class="d-flex justify-content-center mt-4">
+                                    <img class="img-thumbnail img-fluid" src="{{ url_for('static', filename=raccolta.immagine) }}" alt="Immagine raccolta" id="immagine_raccolta">
+                                </a>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5 class="card-title" style="color:#638889;">{{ raccolta.titolo |e }}</h5>
+                                    <p class="card-text">{{ raccolta.descrizione |e }}</p>
+                                    <hr>
+                                    <ul>
+                                        <li>Raccolta di tipo: {{ raccolta.tipo |e }}</li>
+                                        <li>{{ raccolta.cifra_totale_donata}}$ raccolti su un obiettivo di {{ raccolta.obiettivo |e }}$</li>
+                                        {% if raccolta.cifra_totale_donata >= raccolta.obiettivo %}
+                                        <li>Obiettivo raggiunto!</li>
+                                        {% else %}
+                                        <li>Obiettivo non raggiunto!</li>
+                                        {% endif %}
+                                        <li>Data chiusura: {{ raccolta.timestamp_chiusura |e }}</li>
+        
+                                    </ul>
+                                    <hr>
+                                    <a class="btn btn-outline-success" href="{{ url_for('singola_raccolta_fondi', id=raccolta['id']) }}" role="button">
+                                        <i class="fas fa-eye"></i> Visualizza
+                                    </a>
+                                    {% if raccolta.modificabile %}
+                                    <a class="btn btn-outline-warning" href="{{ url_for('modifica_raccolta', id=raccolta['id']) }}" role="button">
+                                        <i class="fas fa-edit"></i> Modifica
+                                    </a>
+                                    <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modale_elimina_{{ raccolta.id |e }}" type="button">
+                                        <i class="fas fa-trash-alt"></i> Elimina
+                                    </button>
+                                    {% endif %}
+        
+                                </div>
+                            </div>
+                            {% if raccolta.modificabile %}
+                            <div class="modal fade font_modale" id="modale_elimina_{{ raccolta.id |e }}" tabindex="-1" aria-labelledby="modale_eliminaLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="modal-title fs-5" id="modale_eliminaLabel">Cancella raccolta fondi</h2>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        
+                                        <div class="modal-body">
+                                            <h5>Sei sicuro di voler cancellare la raccolta fondi:</h5>
+                                            <h5>{{ raccolta.titolo |e }} ?</h5>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                            <div class="btn-group">
+                                            <a href="{{ url_for('cancella_raccolta', id= raccolta.id) }}" class="btn btn-primary active" aria-current="page">Si</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </section>
+                        {% else %}
+                        <section>
+                            <li>La tua lista di raccolte fondi è vuota</li>
+                        </section>
+                        {% endif %}
+                    </main>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+</div>
+<footer id="myfooter">
+    <hr id="linea_orizzontale">
+    <small class="footer_testo">II Appello Introduzione alle applicazioni web 2023/2024, Politecnico di Torino</small>
+    <br>
+    <br>
+    <br>
+</footer>
+{% endblock %}

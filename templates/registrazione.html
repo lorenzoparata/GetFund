@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Registrazione{% endblock %}
+{% block style %}<link rel="stylesheet" href="{{ url_for('static', filename='style_registrazione.css') }}">{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row m-5 justify-content-center align-items-center">
+        <div class="d-flex col-3 justify-content-end">
+            <img class="img-fluid" src="{{ url_for('static', filename='logo.png') }}" alt="logo di GetFund" width="25%"/>
+        </div>
+        <div class="col-4" >
+            <h2 id="titolo">GetFund</h2>
+        </div>
+    </div>
+    <div class="row m-4 justify-content-center">
+        <div class="col-4 border rounded border-dark-subtle p-4" id="form_registrazione">
+            <form action="/registrazione" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nome" name="nome" required>
+                </div>
+                <div class="mb-3">
+                    <label for="cognome" class="form-label">Cognome</label>
+                    <input type="text" class="form-control" id="cognome" name="cognome" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="Emailhelp1" name="email" required>
+                    <div id="Emailhelp1" class="form-text">Non condivideremo mai la sua email con nessun altro.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="passwordInput" class="form-label">Nuova password</label>
+                    <input type="password" class="form-control" id="passwordInput" aria-describedby="passwordHelp" name="hash" required>
+                    <div id="passwordHelp" class="form-text">Non condivideremo mai la sua password con nessun altro.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="passwordInput" class="form-label">Conferma password</label>
+                    <input type="password" class="form-control" id="passwordInput" name="hash2" required>
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-outline-success" type="submit">Registrati</button>
+                    <a class="btn btn-outline-secondary" href="{{ url_for('home_page') }}" role="button">Ritorna alla home</a>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>
+<footer id="myfooter">
+    <hr id="linea_orizzontale">
+    <small class="footer_testo">II Appello Introduzione alle applicazioni web 2023/2024, Politecnico di Torino</small>
+    <br>
+    <br>
+    <br>
+</footer>
+{% endblock %}

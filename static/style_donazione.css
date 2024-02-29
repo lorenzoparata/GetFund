@@ -1,0 +1,28 @@
+
+#main{
+    border:1px solid #686868;
+    border-radius: 2%;
+    padding:2rem;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: beige;
+}
+
+#titolo{
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.footer_testo{
+    color:rgb(86, 86, 86);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 0.9rem;
+}
+#myfooter{
+    position: relative;
+    top:5rem;
+    width: 80%;
+}
+
+#linea_orizzontale{
+    width: 97%;
+}

@@ -1,0 +1,47 @@
+#intestazione_profilo{
+    padding:1.5rem;
+    background-color: beige;
+    font-family: 'Times New Roman', Times, serif;
+
+}
+
+#portafoglio_virtuale{
+    padding:1.5rem;
+    background-color: beige;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#raccolte_utente{
+    padding:1.5rem;
+    background-color: beige;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#immagine_raccolta{
+    width: 200px;
+}
+
+.modale_elimina{
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.footer_testo{
+    color:rgb(86, 86, 86);
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 0.9rem;
+}
+#myfooter{
+    position: relative;
+    top:6rem;
+    left:1rem;
+    width: 80%;
+    
+}
+
+#myaside{
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    align-items: center;
+}
+

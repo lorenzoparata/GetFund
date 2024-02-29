@@ -1,0 +1,73 @@
+#titolo_singolo_post{
+    font-family: 'Times New Roman', Times, serif;
+    color:#638889;
+    font-size:2.5rem;
+}
+
+#info_raccolta{
+    background-color: #FFFC9B;
+    padding:1rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-family: 'Times New Roman', Times, serif;
+    color: #638889;
+}
+
+
+#mybutton_info{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+#descrizione{
+    font-family: 'Times New Roman', Times, serif;
+    padding: 1.5rem;
+    color:#182728;
+    font-size: 1.15rem;
+    background-color: beige;
+}
+
+.progress {
+    height: 10%;
+    width:90%;
+    background-color: #f3f3f3;
+  }
+  
+.progress-bar {
+    height: 100%;
+    line-height: 80%;
+    color: #ffffff;
+    text-align: center;
+    background-color: #33b537;
+  }
+
+#mybutton_donazioni{
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+  }
+
+#sottointestazione{
+    font-family: 'Times New Roman', Times, serif;
+    color:#4e4e4e;
+}
+.donazioni{
+    font-family: 'Times New Roman', Times, serif;
+    background-color: beige;
+}
+
+#linea_orizzontale{
+    width: 97%;
+}
+
+#myfooter{
+    position: relative;
+    top:5rem;
+    width: 80%;
+}
+
+.immagine_raccolta{
+    width: 65%;
+    height: auto;
+}

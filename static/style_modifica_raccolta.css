@@ -1,0 +1,22 @@
+#section{
+    padding:2rem;
+    font-family: 'Times New Roman', Times, serif;
+    background-color: beige;
+}
+
+#bottoni{
+    display: flex;
+    justify-content: space-around;
+}
+
+#myfooter1{
+    position: relative;
+    top:5rem;
+    left:1rem;
+    width:80%;
+}
+
+#linea_orizzontale1{
+    width: 97%;
+    
+}

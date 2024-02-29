@@ -1,0 +1,7 @@
+Le dipendenze usate nel progetto progetto sono quelle usate durante il corso di Introduzione alle Applicazioni Web 2023/2024
+del Politecnico di Torino. In particolare:
+
+-Flask: "pip install Flask"
+-Flask-login: "pip install flask-login"
+-werkzeug: "pip install werkzeug"
+-PIL: "pip install Pillow"

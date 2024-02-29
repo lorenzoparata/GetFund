@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% block title %}Creazione raccolta fondi{% endblock %}
+{% block style %}<link rel="stylesheet" href="{{ url_for('static', filename='style_creazione_raccolta_fondi.css') }}">{% endblock %}
+{% block content %}
+
+<div class="container-fluid mt-3">
+    <div class="row m-5 justify-content-center align-items-center">
+        <div class="d-flex col-3 justify-content-end">
+            <img class="img-fluid" src="{{ url_for('static', filename='logo.png') }}" alt="logo di GetFund" width="25%"/>
+        </div>
+        <div class="col-4" >
+            <h2 style="color:#638889; font-family:'Times New Roman', Times, serif;">GetFund</h2>
+        </div>
+    </div>
+</div>
+
+{% if not current_user.is_authenticated %}
+<div class="container-fluid">
+    <div class="d-flex row justify-content-center">
+        <section class="col-8 mt-1 border border-dark-subtle rounded" id="section">
+            <div class="row">
+                <p>Per iniziare una raccolta fondi e fare la differenza, è necessario avere un account sul nostro sito.
+                    Effettua il login per poter iniziare una raccolta fondi o se non sei registrato, registrati in modo tale da gestire facilmente 
+                    la tua raccolta fondi, tenere traccia dei progressi e connetterti con la nostra comunità di sostenitori.
+                    Unisciti a noi oggi e inizia a trasformare le tue idee in azione!</p>
+            </div>
+            <div class="d-flex row justify-content-center">
+                <div class="col-1">
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modale_login">
+                        Accedi
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<footer id="myfooter2">
+    <hr id="linea_orizzontale2">
+    <small class="footer_testo">II Appello Introduzione alle applicazioni web 2023/2024, Politecnico di Torino</small>
+    <br>
+    <br>
+    <br>
+</footer>
+{% else %}
+<div class="container-fluid">
+    <div class="d-flex row justify-content-center">
+        <section class="col-8 border border-dark-subtle rounded" id="section">
+            <h4 style="color:brown">Scegli il Tipo di Raccolta Fondi: Lampo o Normale</h4>
+            <p>Puoi scegliere quale tipo di raccolta fondi si adatta meglio alle tue esigenze e obiettivi. Offriamo due opzioni:</p>
+            <ul>
+                <li>
+                    <h6 style="color:brown">Raccolta Fondi Lampo:</h6>
+                    <p>Questa opzione è perfetta se desideri una raccolta fondi rapida e intensa.
+                        Dura solo 5 minuti dalla creazione, consentendoti di raccogliere fondi in modo fulmineo.</p>
+                </li>
+                <li>
+                    <h6 style="color:brown">Raccolta Fondi Normale:</h6>
+                    <p>Se preferisci avere più tempo per raggiungere il tuo obiettivo, la raccolta fondi normale è l'opzione ideale. 
+                        Puoi impostare una durata massima fino a 14 giorni dalla creazione, con la flessibilità di terminarla in qualsiasi momento.</p>
+                </li>
+            </ul>
+            <p>Scegli saggiamente e inizia la tua raccolta fondi!</p>
+            <hr>
+            <div id="bottoni">
+                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modale_lampo">
+                    LAMPO
+                </button>
+                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#modale_normale">
+                    NORMALE
+                </button>
+            </div>
+        </section>
+        <div class="modal fade" id="modale_normale" tabindex="-1" aria-labelledby="modale_accediLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content" style="font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modale_accediLabel" style="color:brown;">Raccolta fondi di tipo normale</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="/creazione_raccolta_fondi_form" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="titolo" class="form-label">Il titolo della tua raccolta fondi</label>
+                                <input type="text" class="form-control" id="titolo" name="titolo" required>
+                            </div>
+        
+                            <div class="mb-3">
+                                <label for="descrizione" class="form-label">Racconta la tua storia</label>
+                                <textarea class="form-control" id="descrizione" name="descrizione" rows="3" placeholder="Parla dello scopo della tua raccolta fondi ad esempio" required></textarea>
+                            </div>
+        
+                            <div class="mb-3">
+                                <label for="immagine" class="form-label">Inserisci una immagine, se vuoi</label>
+                                <input class="form-control" type="file" id="immagine" name="immagine">
+                            </div>
+                            <label for="obiettivo" class="form-label">Imposta il tuo obiettivo monetario</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" aria-label="obiettivo in dollari" id="obiettivo" placeholder="1300.00" name="obiettivo" required step="0.01">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <label for="donazione_min" class="form-label">Imposta la donazione minima</label>
+                                        <input type="number" class="form-control" aria-label="donazione minima in dollari" id="donazione_min" placeholder="12.78" name="donazione_min" required step="0.01">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <label for="donazione_max" class="form-label">Imposta la donazione massima</label>
+                                        <input type="number" class="form-control" aria-label="donazione massima in dollari" id="donazione_max" placeholder="100.0" name="donazione_max" required step="0.01">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="mb-3">
+                                <label for="timestamp_chiusura" class="form-label">Seleziona la data di chiusura (entro 14 giorni)</label>
+                                <input class="form-control" type="date" name="timestamp_chiusura" id="timestamp_chiusura" required min="{{ data_min |e }}" max="{{ data_max |e }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="ora_chiusura" class="form-label">Seleziona l'ora di chiusura</label>
+                                <input class="form-control" type="time" name="ora_chiusura" id="ora_chiusura" required>
+                            </div>
+                            
+                            <input type="hidden" name="tipo" value="normale">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            <button type="submit" class="btn btn-success">Pubblica</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modale_lampo" tabindex="-1" aria-labelledby="modale_accediLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content" style="font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modale_accediLabel" style="color:brown;">Raccolta fondi di tipo lampo</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="/creazione_raccolta_fondi_form" method="post" enctype="multipart/form-data">
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="titolo" class="form-label">Il titolo della tua raccolta fondi</label>
+                                <input type="text" class="form-control" id="titolo" name="titolo" required>
+                            </div>
+        
+                            <div class="mb-3">
+                                <label for="descrizione" class="form-label">Racconta la tua storia</label>
+                                <textarea class="form-control" id="descrizione" name="descrizione" rows="3" placeholder="Parla dello scopo della tua raccolta fondi ad esempio" required></textarea>
+                            </div>
+        
+                            <div class="mb-3">
+                                <label for="immagine" class="form-label">Inserisci un'immagine, se vuoi</label>
+                                <input class="form-control" type="file" id="immagine" name="immagine">
+                            </div>
+                            
+                            <label for="obiettivo" class="form-label">Imposta il tuo obiettivo monetario</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" aria-label="obiettivo in dollari" id="obiettivo" placeholder="1300.00" name="obiettivo" required step="0.01">
+                                <span class="input-group-text">$</span>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="input-group">
+                                        <label for="donazione_min" class="form-label">Imposta la donazione minima</label>
+                                        <input type="number" class="form-control" aria-label="donazione minima in dollari" id="donazione_min" placeholder="12.78" name="donazione_min" required step="0.01">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="input-group">
+                                        <label for="donazione_max" class="form-label">Imposta la donazione massima</label>
+                                        <input type="number" class="form-control" aria-label="donazione massima in dollari" id="donazione_max" placeholder="100.0" name="donazione_max" required step="0.01">
+                                        <span class="input-group-text">$</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <input type="hidden" name="tipo" value="lampo">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+                            <button type="submit" class="btn btn-success">Pubblica</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+<footer id="myfooter1">
+    <hr id="linea_orizzontale1">
+    <small class="footer_testo">II Appello Introduzione alle applicazioni web 2023/2024, Politecnico di Torino</small>
+    <br>
+    <br>
+    <br>
+</footer>
+{% endif %}
+
+
+
+{% endblock %}

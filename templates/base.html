@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GetFund - {% block title %}{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_base.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  {%block style %}{% endblock %}
+</head>
+
+<body style="background-color: #F9EFDB;">
+  <header id="myheader">
+    <nav class="navbar navbar-expand-lg navbar-custom">
+      <img class="img-fluid" src="{{ url_for('static', filename='logo.png') }}"id="img_logo" alt="logo di GetFund" width="3%"/>
+      <h2 id="titolo_navbar">GetFund</h2>
+      <div class="collapse navbar-collapse navbar_link" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ url_for('home_page') }}">Pagina principale</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{{ url_for('raccolte_fondi_passate') }}">Raccolte fondi passate</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('creazione_raccolta_fondi') }}">Inizia una raccolta fondi</a>
+          </li>
+          
+          {% if current_user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('profilo') }}">Profilo</a>
+          </li>
+          {% endif %}
+        </ul>
+        {% if current_user.is_authenticated %}
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item navbar_button">
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modale_logout">
+              Esci
+            </button>
+          </li>
+        </ul>
+        {% else %}
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item navbar_button">
+            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#modale_login">
+              Accedi
+            </button>
+          </li>
+        </ul>
+        {% endif %}
+      </div>
+    </nav>
+  </header>
+  
+  <div class="modal fade font_modale" id="modale_login" tabindex="-1" aria-labelledby="modale_accediLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="modale_accediLabel">Accedi</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form action="/login" method="post" enctype="multipart/form-data">
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" class="form-control" id="email" aria-describedby="Emailhelp" name="email" required>
+              <div id="Emailhelp" class="form-text">Non condivideremo mai la sua email con nessun altro.</div>
+            </div>
+            <div class="mb-3">
+              <label for="passwordInput" class="form-label">Password</label>
+              <input type="password" class="form-control" id="passwordInput" name="hash" required>
+            </div>
+            <small>Non hai ancora un account? <a href="{{ url_for('registrazione_page') }}">Registrati</a></small>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+            <button type="submit" class="btn btn-primary">Accedi</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade font_modale" id="modale_logout" tabindex="-1" aria-labelledby="modale_accediLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="modale_accediLabel">Esci</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <div class="modal-body">
+            <h5>Sei sicuro di voler uscire?</h5>
+        </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Chiudi</button>
+            <div class="btn-group">
+              <a href="{{url_for('logout')}}" class="btn btn-primary active" aria-current="page">Esci</a>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-fluid mt-5">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{category}} alert-dismissible fade show" role="alert" id="messaggi">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="row" id="layout">
+      {%block content %}{% endblock %}
+    </div>
+    
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+

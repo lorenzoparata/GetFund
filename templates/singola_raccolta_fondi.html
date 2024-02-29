@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Raccolta fondi di {{ utente.nome |e }}{% endblock %}
+{% block style %}<link rel="stylesheet" href="{{ url_for('static', filename='style_singola_raccolta_fondi.css') }}">{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-4">
+    <div class="d-flex row justify-content-center mt-4">
+        <div class="d-flex col-8 mt-3 justify-content-center">
+            <h2 id="titolo_singolo_post">{{raccolta.titolo}}</h2>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-6 mt-4">
+            <div class="d-flex row justify-content-center">
+                <div class="d-flex col justify-content-center">
+                    {% if raccolta.immagine %}
+                    <img class="img-thumbnail rounded immagine_raccolta" src="{{ url_for('static', filename=raccolta.immagine) }}"
+                    alt="Questa è l'immagine della raccolta">
+                    {% else %}
+                    <img class="img-thumbnail rounded immagine_raccolta" src="{{ url_for('static', filename='foto_mancante.jpg') }}"
+                    alt="Questa è l'immagine della raccolta">                    
+                    {% endif %}
+                </div>
+            </div>
+
+            <section class="d-flex row justify-content-center mt-4" id="sottointestazione">
+                <div class="col-10">
+                    <h4 class="fs-6">{{ utente.nome |e}} {{ utente.cognome |e}} organizza questa raccolta fondi</h4>
+                    <hr class="linea_orizzontale">
+                    <h5 class="fs-6" >creata il {{raccolta.timestamp_creazione}}</h5>
+                </div>
+
+            </section>
+        </div>
+        <aside class="col-6 mt-4">
+            <div class="d-flex row justify-content-center">
+                <div class="d-flex col-8 justify-content-center rounded border-warning fs-5" id="info_raccolta" >
+                    <h4>Informazioni raccolta</h4>
+                    <ul class="rounded border-warning fs-5">
+                        <li>Raccolta di tipo: {{ raccolta.tipo |e }}</li>
+                        <br>
+                        <li>{{ raccolta.cifra_totale_donata |e }}$ raccolti su un obiettivo di {{ raccolta.obiettivo |e }}$ </li>
+                        {% if raccolta.cifra_totale_donata >= raccolta.obiettivo %}
+                        <li style="color:rgb(36, 131, 36)">Obiettivo raggiunto!</li>
+                        {% else %}
+                        <li style="color:rgb(201, 39, 39)">Obiettivo non raggiunto!</li>
+                        {% endif %}
+                        <div class="progress">
+                            <div class="progress-bar" style="width: {{ raccolta.progress_bar |e }};">{{ raccolta.progress_bar |e }}</div>
+                        </div>
+                        <br>
+                        <li>Questa raccolta fondi termina il: {{ raccolta.timestamp_chiusura |e }}</li>
+                    </ul>
+                    <div class="d-flex row justify-content-center">
+                        <div class="col-4">
+                            {% if raccolta['bottone_dona_attivo'] %}
+                            <a class="btn btn-outline-danger" href="{{ url_for('donazione', id=raccolta['id']) }}" id="mybutton_info" role="button">
+                                <i class="fas fa-donate"></i> Dona!
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+      
+                </div>
+            </div>
+
+        </aside>
+    </div>
+    
+    <div class="row d-flex justify-content-center mt-4">
+        <main class="col-10">
+            <section id="descrizione" class="border rounded border-danger-subtle">
+                <h4 style="color:#638889">La Nostra Storia</h4>
+                <p>{{ raccolta.descrizione |e }}</p>
+            </section>
+            
+            <p class="mt-4 d-flex justify-content-center" id="mybutton_donazioni">
+                <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Dai un occhiata alle donazioni ricevute per questa raccolta fondi!
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body donazioni">
+                    {% if donatori | length > 0 %}
+                    <ul>
+                        {% for donatore in donatori %}
+                        {% if donatore.nome != None %}
+                        <li>{{ donatore.nome |e }} {{ donatore.cognome |e }} ha contribuito alla raccolta fondi donando {{ donatore.cifra_donata |e }}$</li>
+                        {% else %}
+                        <li>Un utente anonimo ha contribuito alla raccolta fondi donando {{ donatore.cifra_donata |e }}$</li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <li>La raccolta fondi non ha ancora ricevuto donazioni</li>
+                    {% endif %}
+                </div>
+            </div>
+        </main>        
+    </div>
+
+</div>
+<footer id="myfooter">
+    <hr id="linea_orizzontale">
+    <small class="footer_testo">II Appello Introduzione alle applicazioni web 2023/2024, Politecnico di Torino</small>
+    <br>
+    <br>
+    <br>
+</footer>
+{% endblock %}
+
+

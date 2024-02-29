@@ -1,0 +1,62 @@
+#myheader{
+    font-size: 1rem;
+    color:white;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    background-color: #7c9e9f;
+    font-weight: 500;
+    position: fixed;
+    top:0rem;
+    width:100%;
+    z-index: 1000;
+}
+
+.navbar-custom{
+    background-color: #7c9e9f;
+    position: relative;
+    left: 0.5rem;
+    height:5rem;
+}
+
+.navbar-custom > div > ul > li > a {
+    color:rgba(255, 255, 255, 0.885);
+}
+
+.navbar_button{
+    position: relative;
+    right:3rem;
+    border-radius: 50%;
+    
+}
+
+.navbar_button > button{
+    color:rgba(255, 255, 255, 0.885);
+}
+#titolo_navbar{
+    font-size: 2rem;
+    font-family:'Times New Roman', Times, serif;
+    font-weight: 500;
+    position: relative;
+    left:0.5rem;
+    top:0.3rem;
+}
+
+.navbar_link{
+    position: relative;
+    left:2rem;
+}
+
+#layout{
+    display: flex;
+    justify-content: center;
+}
+
+#messaggi{
+    position: relative;
+    top:2.3rem;
+}
+
+.font_modale{
+    font-family:'Times New Roman', Times, serif;
+}
+
+

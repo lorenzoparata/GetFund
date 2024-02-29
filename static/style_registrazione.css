@@ -1,0 +1,20 @@
+#myfooter{
+    position: relative;
+    top:5rem;
+    width: 80%;
+}
+
+#linea_orizzontale{
+    width: 97%;
+}
+
+#titolo{
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 2.5rem;
+    color:#638889;
+}
+
+#form_registrazione{
+    font-family: 'Times New Roman', Times, serif;
+    background-color: beige;
+}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Raccolte Fondi Aperte{% endblock %}
+{% block style %}<link rel="stylesheet" href="{{ url_for('static', filename='style_homepage.css') }}">{% endblock %}
+{%block content %}
+
+<section class="intestazione border rounded border-dark-subtle">
+    <h2>Guarda le raccolte fondi del momento</h2>
+    <p>Scopri le raccolte fondi attualmente aperte e scopri come puoi fare la differenza oppure creane una</p>
+    <div>
+        <a href="{{ url_for('creazione_raccolta_fondi') }}" class="btn btn-outline-primary"><i class="fas fa-plus"></i> Crea una raccolta fondi!</a>
+    </div>
+</section>
+
+<main class="col-8 articoli">
+    {% for raccolta in raccolte %}
+    <article class="row border rounded border-dark-subtle articolo">
+        <div class="col-3">
+            <a href="{{ url_for('singola_raccolta_fondi', id=raccolta['id']) }}">
+                {% if raccolta.immagine %}
+                <img class="img-thumbnail w-100 p-2" src="{{ url_for('static', filename=raccolta.immagine) }}" alt="Immagine raccolta">
+                {% else %}
+                <img class="img-thumbnail w-100 p-2" src="{{ url_for('static', filename='foto_mancante.jpg') }}" alt="Immagine mancante">
+                {% endif %}
+            </a>
+        </div>
+        <div class="col-9">
+            <section class="row">
+                <div class="col-9">
+                    <h3 class="titolo_articolo" style="color:#638889">{{ raccolta.titolo |e }}</h3>
+                </div>
+                <div class="col-3">
+                    <h4 class="fs-5" style="color:rgba(255, 98, 98, 0.836)">Raccolta di tipo: {{ raccolta.tipo |e }}</h4>
+                </div>
+            </section>
+            <br>
+            <p style="color:#182728" class="paragrafo">{{ raccolta.descrizione |e }}</p>
+            <br>
+            <section class="row">
+                <div class="col-7">
+                    {% if raccolta.cifra_totale_donata >= raccolta.obiettivo %}
+                    <h4 class="fs-5" style="color:rgb(36, 131, 36)">Obiettivo raggiunto!</h4>
+                    {% else %}
+                    <h4 class="fs-5" style="color:rgba(255, 98, 98, 0.836)">Obiettivo non raggiunto!</h4>
+                    {% endif %}
+                    <h5 class="fs-5" style="color:#182728">{{ raccolta.cifra_totale_donata |e }}$ raccolti di {{ raccolta.obiettivo |e }}$</h5>
+                    <div class="progress border border-dark-subtle" style="height: 30%;">
+                        <div class="progress-bar" style="width: {{ raccolta.progress_bar |e }};">{{ raccolta.progress_bar |e }}</div>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <h4 class="fs-5" style="color:rgba(255, 98, 98, 0.836)">Termina tra: {{ raccolta.giorni_mancanti | e}}g {{ raccolta.ore_mancanti | e}}h {{ raccolta.minuti_mancanti | e}}m</h4>
+                </div>
+            </section>
+            <br>
+            <div class="d-flex row justify-content-end">
+                <div class="d-flex col-3 justify-content-end">
+                    <a class="btn btn-outline-danger" href="{{ url_for('singola_raccolta_fondi', id=raccolta.id) }}" role="button">
+                        <i class="fas fa-donate"></i>Dona!
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+    </article>
+    {% endfor %}
+</main>
+<footer id="myfooter">
+    <hr id="linea_orizzontale">
+    <small class="footer_testo">II Appello Introduzione alle applicazioni web 2023/2024, Politecnico di Torino</small>
+    <br>
+    <br>
+    <br>
+</footer>
+{% endblock %}
